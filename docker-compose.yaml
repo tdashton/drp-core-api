@@ -1,0 +1,11 @@
+services:
+    drp-api:
+        image: mcr.microsoft.com/dotnet/sdk:6.0
+        ports:
+            - "5119:5119"
+    #drp-app: ~ 
+    postgres:
+        image: postgres:13-bookworm
+        environment:
+            POSTGRES_PASSWORD: standardpw
+

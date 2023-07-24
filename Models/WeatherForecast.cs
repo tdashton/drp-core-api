@@ -1,4 +1,4 @@
-namespace opt;
+namespace DRP_API.Models;
 
 public class WeatherForecast
 {
