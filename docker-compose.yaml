@@ -1,11 +1,16 @@
 services:
-    drp-api:
-        image: mcr.microsoft.com/dotnet/sdk:6.0
-        ports:
-            - "5119:5119"
-    #drp-app: ~ 
-    postgres:
-        image: postgres:13-bookworm
-        environment:
-            POSTGRES_PASSWORD: standardpw
-
+  drp-api:
+    image: drp-api:latest
+    entrypoint: dotnet watch --project /opt
+#    entrypoint: tail -f /dev/null
+    environment:
+      POSTGRES_CONNECTION_STRING: "Host=${POSTGRES_HOST};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}"
+    ports:
+      - "5119:5119"
+    volumes:
+      - "./:/opt"
+  #drp-app: ~ 
+  drp-db:
+    image: postgres:13-bookworm
+    environment:
+      POSTGRES_PASSWORD: postgres

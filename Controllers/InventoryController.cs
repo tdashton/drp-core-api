@@ -9,31 +9,42 @@ namespace DRP_API.Controllers;
 public class InventoryController : ControllerBase 
 {
     private readonly ILogger<InventoryController> _logger;
+    private readonly CoreApiContext _context;
 
-    public InventoryController(ILogger<InventoryController> logger)
-    {
+    public InventoryController(
+        ILogger<InventoryController> logger,
+        CoreApiContext context
+    ) {
         _logger = logger;
+        _context = context;
     }
 
     [HttpGet]
-    public ActionResult<List<Inventory>> GetAll() => InventoryService.GetAll();
+    public ActionResult<IEnumerable<Inventory>> GetInventory()
+    {
+        return _context.Inventory.ToList();
+    }
 
     [HttpGet("{id}")]
-    public ActionResult<Inventory> Get(int id)
+    public async Task<ActionResult<Inventory>> GetInventory(int id)
     {
-        var inventory = InventoryService.Get(id);
+        var inv = await _context.Inventory.FindAsync(id);
 
-        if(inventory == null)
+        if (inv == null)
+        {
             return NotFound();
+        }
 
-        return inventory;
+        return inv;
     }
 
     [HttpPost]
-    public ActionResult<Inventory> Create(Inventory inventory)
-    {            
-        InventoryService.Add(inventory);
-        return CreatedAtAction(nameof(Get), new { id = inventory.Id }, inventory);
-    }
+    public async Task<ActionResult<Inventory>> Create(Inventory inventory)
+    {
+        // Insert Inventory
+        _context.Inventory.Add(inventory);
+        await _context.SaveChangesAsync();
 
+        return CreatedAtAction(nameof(Create), new { id = inventory.Id }, inventory);
+    }
 }

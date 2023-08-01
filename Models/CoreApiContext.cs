@@ -8,5 +8,7 @@ public class CoreApiContext : DbContext
     {
     }
 
-    public DbSet<Inventory> TodoItems { get; set; } = null!;
+    public DbSet<Inventory> Inventory { get; set; } = null!;
+    public DbSet<Supply> Supply { get; set; } = null!;
+    public DbSet<Design> Design { get; set; } = null!;
 }
