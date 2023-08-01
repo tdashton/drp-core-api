@@ -11,4 +11,5 @@ public class CoreApiContext : DbContext
     public DbSet<Inventory> Inventory { get; set; } = null!;
     public DbSet<Supply> Supply { get; set; } = null!;
     public DbSet<Design> Design { get; set; } = null!;
+//    public DbSet<DesignInventory> DesignInventory { get; set; } = null!;
 }
