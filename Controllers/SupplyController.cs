@@ -24,7 +24,10 @@ namespace DRP_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Supply>>> GetInventorySupply([FromRoute] int inventoryId)
         {
-            return await _context.Supply.ToListAsync();
+            var models = _context.Supply
+                .Where(i => i.InventoryId == inventoryId);
+
+            return await models.ToListAsync();
         }
 
         // GET: Inventory/{id}/Supply/5
@@ -34,7 +37,7 @@ namespace DRP_API.Controllers
             var inventory = await _context.Inventory.FindAsync(inventoryId);
             var supply = await _context.Supply.FindAsync(id);
 
-            if (supply == null)
+            if (supply == null || inventory == null)
             {
                 return NotFound();
             }
@@ -52,6 +55,10 @@ namespace DRP_API.Controllers
         public async Task<IActionResult> PutSupply([FromRoute] int inventoryId, int id, Supply supply)
         {
             var inventory = await _context.Inventory.FindAsync(inventoryId);
+
+            if (inventory == null) {
+                return NotFound();
+            }
 
             if (inventory.Id != supply.InventoryId) {
                 return BadRequest();
@@ -90,10 +97,14 @@ namespace DRP_API.Controllers
         {
             var inventory = await _context.Inventory.FindAsync(inventoryId);
 
+            if (inventory == null) {
+                return NotFound();
+            }
+
             if (inventory.Id != supply.InventoryId) {
                 return BadRequest();
             }
-           
+
             _context.Supply.Add(supply);
             await _context.SaveChangesAsync();
 

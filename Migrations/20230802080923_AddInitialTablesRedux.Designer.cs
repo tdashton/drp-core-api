@@ -11,15 +11,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRP_API.Migrations
 {
     [DbContext(typeof(CoreApiContext))]
-    [Migration("20230801094351_AddInitialTables")]
-    partial class AddInitialTables
+    [Migration("20230802080923_AddInitialTablesRedux")]
+    partial class AddInitialTablesRedux
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "6.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -45,6 +44,36 @@ namespace DRP_API.Migrations
                         .HasName("pk_design");
 
                     b.ToTable("design", (string)null);
+                });
+
+            modelBuilder.Entity("DRP_API.Models.DesignRequiredInventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("integer")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<int>("DesignId")
+                        .HasColumnType("integer")
+                        .HasColumnName("design_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_design_required_inventory");
+
+                    b.HasIndex("DesignId")
+                        .HasDatabaseName("ix_design_required_inventory_design_id");
+
+                    b.ToTable("design_required_inventory", (string)null);
                 });
 
             modelBuilder.Entity("DRP_API.Models.Inventory", b =>
@@ -102,7 +131,39 @@ namespace DRP_API.Migrations
                     b.HasKey("Id")
                         .HasName("pk_supply");
 
+                    b.HasIndex("InventoryId")
+                        .HasDatabaseName("ix_supply_inventory_id");
+
                     b.ToTable("supply", (string)null);
+                });
+
+            modelBuilder.Entity("DRP_API.Models.DesignRequiredInventory", b =>
+                {
+                    b.HasOne("DRP_API.Models.Design", "Design")
+                        .WithMany("ReqiuredInventory")
+                        .HasForeignKey("DesignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_design_required_inventory_design_design_id");
+
+                    b.Navigation("Design");
+                });
+
+            modelBuilder.Entity("DRP_API.Models.Supply", b =>
+                {
+                    b.HasOne("DRP_API.Models.Inventory", "Inventory")
+                        .WithMany()
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_supply_inventory_inventory_id");
+
+                    b.Navigation("Inventory");
+                });
+
+            modelBuilder.Entity("DRP_API.Models.Design", b =>
+                {
+                    b.Navigation("ReqiuredInventory");
                 });
 #pragma warning restore 612, 618
         }
