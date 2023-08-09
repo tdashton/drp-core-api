@@ -80,7 +80,7 @@ namespace DRP_API.Controllers
             _context.DesignRequiredInventory.Add(designRequiredInventory);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDesignRequiredInventory", new { id = designRequiredInventory.Id }, designRequiredInventory);
+            return CreatedAtAction("GetDesignRequiredInventory", new { designId = DesignId, id = designRequiredInventory.Id }, designRequiredInventory);
         }
 
         // DELETE: DesignRequiredInventory/5

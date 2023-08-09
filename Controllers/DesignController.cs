@@ -31,7 +31,10 @@ namespace DRP_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Design>> GetDesign(int id)
         {
-            var design = await _context.Design.FindAsync(id);
+            var design = await _context
+                .Design
+                .Include(design => design.RequiredInventory)
+                .SingleOrDefaultAsync(design => design.Id == id);
 
             if (design == null)
             {

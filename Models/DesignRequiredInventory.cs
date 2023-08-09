@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 namespace DRP_API.Models;
 
 public class DesignRequiredInventory {
@@ -6,5 +7,7 @@ public class DesignRequiredInventory {
     public string? Description { get; set; }
 
     public int DesignId { get; set; }
+
+    [JsonIgnore]
     public Design? Design { get; }
 }
