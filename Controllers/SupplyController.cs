@@ -14,10 +14,12 @@ namespace DRP_API.Controllers
     public class SupplyController : ControllerBase
     {
         private readonly CoreApiContext _context;
+        private readonly ILogger<SupplyController> _logger;
 
-        public SupplyController(CoreApiContext context)
+        public SupplyController(CoreApiContext context, ILogger<SupplyController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Inventory/{id}/Supply
@@ -101,9 +103,11 @@ namespace DRP_API.Controllers
                 return NotFound();
             }
 
-            if (inventory.Id != supply.InventoryId) {
+            if (supply.InventoryId != inventoryId) {
                 return BadRequest();
             }
+
+            supply.InventoryId = inventoryId;
 
             _context.Supply.Add(supply);
             await _context.SaveChangesAsync();

@@ -7,4 +7,6 @@ public class Inventory {
     public string? Name { get; set; }
     public InventoryUnit Unit { get; set; }
     public string? Description { get; set; }
+
+    public ICollection<Supply> Supply { get; } = new List<Supply>(); // Collection navigation containing dependents
 }

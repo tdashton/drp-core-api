@@ -5,5 +5,5 @@ public class Design {
     public string? Name { get; set; }
     public string? Description { get; set; }
 
-    public List<DesignRequiredInventory> ReqiuredInventory { get; } = new();
+    public List<DesignRequiredInventory> RequiredInventory { get; } = new();
 }

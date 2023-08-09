@@ -14,9 +14,11 @@ namespace DRP_API.Controllers
     public class InventoryController : ControllerBase
     {
         private readonly CoreApiContext _context;
+        private readonly ILogger<InventoryController> _logger;
 
-        public InventoryController(CoreApiContext context)
+        public InventoryController(CoreApiContext context, ILogger<InventoryController> logger)
         {
+            _logger = logger;
             _context = context;
         }
 
@@ -31,7 +33,10 @@ namespace DRP_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Inventory>> GetInventory(int id)
         {
-            var inventory = await _context.Inventory.FindAsync(id);
+            var inventory = await _context
+                .Inventory
+                .Include(inventory => inventory.Supply)
+                .SingleOrDefaultAsync(inventory => inventory.Id == id);
 
             if (inventory == null)
             {
