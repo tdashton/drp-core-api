@@ -44,7 +44,7 @@ namespace DRP_API.Controllers
                 return NotFound();
             }
 
-            if (inventory.Id != supply.InventoryId) {
+            if (inventory.InventoryId != supply.InventoryId) {
                 return BadRequest();
             }
 
@@ -62,7 +62,7 @@ namespace DRP_API.Controllers
                 return NotFound();
             }
 
-            if (inventory.Id != supply.InventoryId) {
+            if (inventory.InventoryId != supply.InventoryId) {
                 return BadRequest();
             }
 

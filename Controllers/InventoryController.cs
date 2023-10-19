@@ -36,7 +36,7 @@ namespace DRP_API.Controllers
             var inventory = await _context
                 .Inventory
                 .Include(inventory => inventory.Supply)
-                .SingleOrDefaultAsync(inventory => inventory.Id == id);
+                .SingleOrDefaultAsync(inventory => inventory.InventoryId == id);
 
             if (inventory == null)
             {
@@ -51,7 +51,7 @@ namespace DRP_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutInventory(int id, Inventory inventory)
         {
-            if (id != inventory.Id)
+            if (id != inventory.InventoryId)
             {
                 return BadRequest();
             }
@@ -85,7 +85,7 @@ namespace DRP_API.Controllers
             _context.Inventory.Add(inventory);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetInventory", new { id = inventory.Id }, inventory);
+            return CreatedAtAction("GetInventory", new { id = inventory.InventoryId }, inventory);
         }
 
         // DELETE: api/Inventory/5
@@ -106,7 +106,7 @@ namespace DRP_API.Controllers
 
         private bool InventoryExists(int id)
         {
-            return _context.Inventory.Any(e => e.Id == id);
+            return _context.Inventory.Any(e => e.InventoryId == id);
         }
     }
 }

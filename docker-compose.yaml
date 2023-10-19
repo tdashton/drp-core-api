@@ -4,6 +4,7 @@ services:
     entrypoint: dotnet watch --project /opt
 #    entrypoint: tail -f /dev/null
     environment:
+      SQLSERVER_CONNECTION_STRING: ""
       POSTGRES_CONNECTION_STRING: "Host=${POSTGRES_HOST};Username=${POSTGRES_USERNAME};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}"
     ports:
       - "5119:5119"

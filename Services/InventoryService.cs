@@ -10,9 +10,9 @@ public static class InventoryService
     {
         Inventory = new List<Inventory>
         {
-            new Inventory { Id = 1, Name = "Some inventory", Unit = InventoryUnit.Meter, Description = "A description" },
-            new Inventory { Id = 2, Name = "Other inventory", Unit = InventoryUnit.Meter, Description = "Another description" },
-            new Inventory { Id = 3, Name = "Keychain", Unit = InventoryUnit.Count, Description = "This is a keychain" },
+            new Inventory { InventoryId = 1, Name = "Some inventory", Unit = InventoryUnit.Meter, Description = "A description" },
+            new Inventory { InventoryId = 2, Name = "Other inventory", Unit = InventoryUnit.Meter, Description = "Another description" },
+            new Inventory { InventoryId = 3, Name = "Keychain", Unit = InventoryUnit.Count, Description = "This is a keychain" },
         };
     }
 
@@ -23,7 +23,7 @@ public static class InventoryService
 
     public static void Add(Inventory inventory)
     {
-        inventory.Id = nextId++;
+        inventory.InventoryId = nextId++;
         Inventory.Add(inventory);
     }
 
@@ -38,7 +38,7 @@ public static class InventoryService
 
     public static void Update(Inventory inventory)
     {
-        var index = Inventory.FindIndex(p => p.Id == inventory.Id);
+        var index = Inventory.FindIndex(p => p.InventoryId == inventory.InventoryId);
         if(index == -1)
             return;
 
